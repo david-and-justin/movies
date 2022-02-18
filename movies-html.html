@@ -5,7 +5,22 @@
     <title>Movies</title>
 </head>
 <body>
-
+<form id="movie-form">
+    <label for="title">Title:</label>
+    <input id="title" name="title" type="text"><br/>
+    <label for="director">Director:</label>
+    <input id="director" name="director" type="text"><br/>
+    <label for="rating">Rating:</label>
+    <input id="rating" name="rating" type="text"><br/>
+    <button id="add-btn" type="button">Add</button>
+</form>
 <script src="movies-js.js"></script>
+<script src="jquery.js"></script>
+<script>
+    $('#add-btn').click(function (event) {
+        event.preventDefault();
+        addMovie();
+    })
+</script>
 </body>
 </html>

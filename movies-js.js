@@ -1,13 +1,7 @@
 "use strict";
 
 const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
-const options = {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    body: json.stringify(newMovie)
-}
+
 
 
 //GET ALL MOVIES
@@ -17,8 +11,6 @@ function fetchAllMovies() {
             .then(data => console.log(data)))
             .catch(err => console.log(err));
 }
-
-fetchAllMovies();
 
 
 // GET ONE MOVIE
@@ -35,9 +27,28 @@ function fetchOneMovies(specID) {
         .catch(err => console.log(err));
 }
 
-fetchOneMovies(8);
+// fetchOneMovies(8);
 
+//ADD A NEW MOVIE
 function addMovie() {
-    fetch(url)
-        .then(res => res.json())
+    //This is producing an error:
+    //"Private field '#title' must be declared in an enclosing class"
+    let newMovie = {
+        title: $('#title').val(),
+        director: $('#director').val(),
+        rating: $('#rating').val()
+    }
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMovie)
+    }
+    fetch(url,options)
+        .then(res => {
+            console.log("Movie has been created!")
+        })
 }
+
+fetchAllMovies();
