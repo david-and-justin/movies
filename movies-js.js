@@ -18,52 +18,94 @@ function fetchAllMovies() {
                     let rating = movie.rating;
                     let year = movie.year;
                     let genre = movie.genre;
-                    let movieCard = `<div class="col mb-5">
-                                        <div class="card h-100">
-                                            <!-- Movie image-->
-                                            <img class="card-img-top" src=${poster} alt="..."/>
-                                            <!-- Movie details-->
-                                            <div class="card-body p-4">
-                                                <div class="text-center">
-                                                    <!-- Product name-->
-                                                    <h5 class="fw-bolder">${movieTitle}</h5>
-                                                    <p>${movieID}</p>
-                                                    <p>${director}</p>
-                                                    <p>${rating}</p>
-                                                    <p>${year}</p>
-                                                </div>
-                                            </div>
-                                            <!-- Product actions-->
-                                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Edit</a></div>
-                                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Remove</a></div>
-                                            </div>
+                    let movieCard =
+                        //language=HTML
+
+                            `<div class="col mb-5">
+                                <div class="card h-100">
+                                    <!-- Movie image-->
+                                    <img class="card-img-top" src=${poster} alt="..."/>
+                                    <!-- Movie details-->
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <!-- Product name-->
+                                            <h5 class="fw-bolder">${movieTitle}</h5>
+                                            <p>${movieID}</p>
+                                            <p>${director}</p>
+                                            <p>${rating}</p>
+                                            <p>${year}</p>
                                         </div>
-                                    </div>`;
+                                    </div>
+                                    <!-- Product actions-->
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                        <div class="text-center"><a data-id="${movieID}" class="btn btn-outline-dark mt-auto edit-button"
+                                                                    href="#">Edit</a></div>
+                                        <div class="text-center"><a data-id="${movieID}" class="btn btn-outline-dark mt-auto remove-button"
+                                                                    href="#">Remove</a></div>
+                                    </div>
+                                </div>
+                            </div>`;
 
                     $("#card-area").append(movieCard);
                 }
+
             }))
         .catch(err => console.log(err));
 }
 
 
 // GET ONE MOVIE
-// function fetchOneMovie(movieID) {
-//     return fetch(url)
-//         .then(res => res.json())
-//         .then(movies => {
-//             for (let movie of movies) {
-//                 if (movie.id === movieID) {
-//                     return movie;
-//                 }
-//             }
-//         })
-//         .catch(err => console.log(err));
-// }
-//
+function fetchOneMovie(movieID) {
+    return fetch(url)
+        .then(res => res.json())
+        .then(movies => {
+            for (let movie of movies) {
+                if (movie.id === movieID) {
+                    return movie;
+                }
+            }
+        })
+        .catch(err => console.log(err));
+}
+
 // fetchOneMovie(5).then(movieInfo => console.log(movieInfo));
 
+$(document).on('click','.edit-button', function () {
+    $('#change-btn').attr('data-id',$(this).attr('data-id'));
+    fetchOneMovie(parseInt($(this).attr('data-id')))
+        .then(movie => {
+            $('#title').val(movie.title);
+            $('#director').val(movie.director);
+            $('#rating').val(movie.rating);
+            $('#year').val(movie.year);
+            $('#genre').val(movie.genre);
+        })
+})
+
+$('#change-btn').click(function (event) {
+    event.preventDefault();
+    editMovie($(this).attr('data-id'));
+})
+
+function editMovie(movieID) {
+    let updateMovie = {
+        id: movieID,
+        title: $('#title').val(),
+        director: $('#director').val(),
+        rating: $('#rating').val()
+    }
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateMovie)
+    }
+    fetch(url, options)
+        .then(res => {
+            console.log("Movie has been edited!")
+        })
+}
 //ADD A NEW MOVIE
 function addMovie() {
     //This is producing an error:
