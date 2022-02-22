@@ -31,9 +31,10 @@ function fetchAllMovies() {
                                         <div class="text-center">
                                             <!-- Product name-->
                                             <h5 class="fw-bolder">${movieTitle}</h5>
-                                            <p>Director: ${director}</p>
-                                            <p>Rating: ${rating}</p>
-                                            <p>Year: ${year}</p>
+                                            <p><b>Director: </b>${director}</p>
+                                            <p><b>Rating: </b>${rating}</p>
+                                            <p><b>Year: </b>${year}</p>
+                                            <p><b>Genre: </b>${genre}</p>
                                         </div>
                                     </div>
                                     <!-- Product actions-->
@@ -98,6 +99,11 @@ $('#add-btn').click(function (event) {
     addMovie(parseInt($(this).attr('data-id')));
 });
 
+$('#clear-btn').click(function (event) {
+    event.preventDefault();
+    $('#movie-form').children().val("");
+});
+
 function editMovie(movieID) {
     let updateMovie = {
         id: movieID,
@@ -128,7 +134,10 @@ function addMovie() {
     let newMovie = {
         title: $('#title').val(),
         director: $('#director').val(),
-        rating: $('#rating').val()
+        rating: $('#rating').val(),
+        year: $('#year').val(),
+        genre: $('#genre').val(),
+        poster: $('#img-url').val()
     }
     const options = {
         method: "POST",
@@ -142,6 +151,7 @@ function addMovie() {
             $("#card-area").html("");
             fetchAllMovies();
         })
+        .then(clearFields);
 }
 
 // Delete a Movie
@@ -157,11 +167,10 @@ function deleteMovie(movieID) {
             })
             .then(clearFields);
     }
-
-
+}
 function clearFields() {
         $('#movie-form').children().val("");
-}
+
     // function buildCard() {
     //     let movieTitle = d
     //     let movieCard = `<div class="col mb-5">
