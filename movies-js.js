@@ -3,7 +3,6 @@
 const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
 
 
-
 //GET ALL MOVIES
 function fetchAllMovies() {
     return fetch(url)
@@ -12,33 +11,40 @@ function fetchAllMovies() {
                 console.log(data);
                 $("#card-area").html("");
                 for (const movie of data) {
-                    let title = movie.title;
+                    let movieTitle = movie.title;
+                    let movieID = movie.id;
+                    let director = movie.director;
+                    let poster = movie.poster;
+                    let rating = movie.rating;
+                    let year = movie.year;
+                    let genre = movie.genre;
                     let movieCard = `<div class="col mb-5">
                                         <div class="card h-100">
-                                            <!-- Product image-->
-                                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
-                                            <!-- Product details-->
+                                            <!-- Movie image-->
+                                            <img class="card-img-top" src=${poster} alt="..."/>
+                                            <!-- Movie details-->
                                             <div class="card-body p-4">
                                                 <div class="text-center">
                                                     <!-- Product name-->
-                                                    <h5 class="fw-bolder">${title}</h5>
-                                                    <!-- Product price-->
-                                                    $40.00 - $80.00
+                                                    <h5 class="fw-bolder">${movieTitle}</h5>
+                                                    <p>${movieID}</p>
+                                                    <p>${director}</p>
+                                                    <p>${rating}</p>
+                                                    <p>${year}</p>
                                                 </div>
                                             </div>
                                             <!-- Product actions-->
                                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Edit</a></div>
+                                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Remove</a></div>
                                             </div>
                                         </div>
-                                    </div>`
-
-
+                                    </div>`;
 
                     $("#card-area").append(movieCard);
                 }
             }))
-            .catch(err => console.log(err));
+        .catch(err => console.log(err));
 }
 
 
@@ -74,7 +80,7 @@ function addMovie() {
         },
         body: JSON.stringify(newMovie)
     }
-    fetch(url,options)
+    fetch(url, options)
         .then(res => {
             console.log("Movie has been created!")
         })
@@ -92,13 +98,13 @@ function deleteMovie(movieID) {
         },
         body: JSON.stringify(newMovie)
     }
-    fetch(url,options)
+    fetch(url, options)
         .then(res => {
             console.log("Movie has been deleted!")
         })
 
-function buildCard() {
-    let movieTitle = d
+    function buildCard() {
+        let movieTitle = d
         let movieCard = `<div class="col mb-5">
                 <div class="card h-100">
                     <!-- Movie details-->
@@ -116,5 +122,6 @@ function buildCard() {
                 </div>
             </div>`;
 
-    $('#card-area').append(movieCard);}
+        $('#card-area').append(movieCard);
+    }
 }
