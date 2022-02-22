@@ -6,9 +6,9 @@ const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
 
 //GET ALL MOVIES
 function fetchAllMovies() {
-    fetch(url)
+    return fetch(url)
         .then(res => res.json()
-            .then(data => console.log(data)))
+            .then(data => data))
             .catch(err => console.log(err));
 }
 
