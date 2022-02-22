@@ -21,7 +21,8 @@ function fetchAllMovies() {
                     let movieCard =
                         //language=HTML
 
-                            `<div class="col mb-5">
+                        `
+                            <div class="col mb-5">
                                 <div class="card h-100">
                                     <!-- Movie image-->
                                     <img class="card-img-top" src=${poster} alt="..."/>
@@ -30,18 +31,16 @@ function fetchAllMovies() {
                                         <div class="text-center">
                                             <!-- Product name-->
                                             <h5 class="fw-bolder">${movieTitle}</h5>
-                                            <p>${movieID}</p>
-                                            <p>${director}</p>
-                                            <p>${rating}</p>
-                                            <p>${year}</p>
+                                            <p>Director: ${director}</p>
+                                            <p>Rating: ${rating}</p>
+                                            <p>Year: ${year}</p>
                                         </div>
                                     </div>
                                     <!-- Product actions-->
                                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                        <div class="text-center"><a data-id="${movieID}" class="btn btn-outline-dark mt-auto edit-button"
+                                        <div class="text-center"><a data-id="${movieID}"
+                                                                    class="btn btn-outline-dark mt-auto edit-button"
                                                                     href="#">Edit</a></div>
-                                        <div class="text-center"><a data-id="${movieID}" class="btn btn-outline-dark mt-auto remove-button"
-                                                                    href="#">Remove</a></div>
                                     </div>
                                 </div>
                             </div>`;
@@ -70,42 +69,57 @@ function fetchOneMovie(movieID) {
 
 // fetchOneMovie(5).then(movieInfo => console.log(movieInfo));
 
-$(document).on('click','.edit-button', function () {
-    $('#change-btn').attr('data-id',$(this).attr('data-id'));
+$(document).on('click', '.edit-button', function () {
+    $('#change-btn').attr('data-id', $(this).attr('data-id'));
     fetchOneMovie(parseInt($(this).attr('data-id')))
         .then(movie => {
+            $('#ID').val(movie.id);
             $('#title').val(movie.title);
             $('#director').val(movie.director);
             $('#rating').val(movie.rating);
             $('#year').val(movie.year);
             $('#genre').val(movie.genre);
         })
-})
+});
 
 $('#change-btn').click(function (event) {
     event.preventDefault();
-    editMovie($(this).attr('data-id'));
-})
+    editMovie(parseInt($(this).attr('data-id')));
+});
+
+$('#delete-btn').click(function (event) {
+    event.preventDefault();
+    deleteMovie(parseInt($(this).attr('data-id')));
+});
+
+$('#add-btn').click(function (event) {
+    event.preventDefault();
+    addMovie(parseInt($(this).attr('data-id')));
+});
 
 function editMovie(movieID) {
     let updateMovie = {
         id: movieID,
         title: $('#title').val(),
         director: $('#director').val(),
-        rating: $('#rating').val()
+        rating: $('#rating').val(),
+        year: $('#year').val(),
+        genre: $('#genre').val()
     }
     const options = {
-        method: "PUT",
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(updateMovie)
     }
-    fetch(url, options)
-        .then(res => {
-            console.log("Movie has been edited!")
+    fetch(url + "/" + movieID, options)
+        .then(data => {
+            $("#card-area").html("");
+            fetchAllMovies();
         })
 }
+
 //ADD A NEW MOVIE
 function addMovie() {
     //This is producing an error:
@@ -123,47 +137,44 @@ function addMovie() {
         body: JSON.stringify(newMovie)
     }
     fetch(url, options)
-        .then(res => {
-            console.log("Movie has been created!")
+        .then(data => {
+            $("#card-area").html("");
+            fetchAllMovies();
         })
 }
 
 // Delete a Movie
 function deleteMovie(movieID) {
-    let newMovie = {
-        id: $('movieID').val()
-    }
-    const options = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMovie)
-    }
-    fetch(url, options)
-        .then(res => {
-            console.log("Movie has been deleted!")
+    let areYouSure = confirm("Are you sure you want to delete this movie?");
+    if (areYouSure) {
+        fetch(url + "/" + movieID, {
+            method: "DELETE"
         })
-
-    function buildCard() {
-        let movieTitle = d
-        let movieCard = `<div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Movie details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder"></h5>
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View
-                            options</a></div>
-                    </div>
-                </div>
-            </div>`;
-
-        $('#card-area').append(movieCard);
+            .then(data => {
+                $("#card-area").html("");
+                fetchAllMovies();
+            })
     }
+
+
+    // function buildCard() {
+    //     let movieTitle = d
+    //     let movieCard = `<div class="col mb-5">
+    //             <div class="card h-100">
+    //                 <!-- Movie details-->
+    //                 <div class="card-body p-4">
+    //                     <div class="text-center">
+    //                         <!-- Product name-->
+    //                         <h5 class="fw-bolder"></h5>
+    //                     </div>
+    //                 </div>
+    //                 <!-- Product actions-->
+    //                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+    //                     <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View
+    //                         options</a></div>
+    //                 </div>
+    //             </div>
+    //         </div>`;
+    //
+    //     $('#card-area').append(movieCard);
 }
