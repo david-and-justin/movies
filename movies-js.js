@@ -89,7 +89,8 @@ $('#change-btn').click(function (event) {
 
 $('#delete-btn').click(function (event) {
     event.preventDefault();
-    deleteMovie(parseInt($(this).attr('data-id')));
+    let thisMovieID = parseInt($('#ID').val());
+    deleteMovie(thisMovieID);
 });
 
 $('#add-btn').click(function (event) {
@@ -154,9 +155,13 @@ function deleteMovie(movieID) {
                 $("#card-area").html("");
                 fetchAllMovies();
             })
+            .then(clearFields);
     }
 
 
+function clearFields() {
+        $('#movie-form').children().val("");
+}
     // function buildCard() {
     //     let movieTitle = d
     //     let movieCard = `<div class="col mb-5">
