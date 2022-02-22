@@ -27,7 +27,7 @@ function fetchOneMovie(movieID) {
         .catch(err => console.log(err));
 }
 
-fetchOneMovie(2).then(movieInfo => console.log(movieInfo));
+fetchOneMovie(5).then(movieInfo => console.log(movieInfo));
 
 //ADD A NEW MOVIE
 function addMovie() {
@@ -52,3 +52,19 @@ function addMovie() {
 }
 
 // Delete a Movie
+function deleteMovie(movieID) {
+    let newMovie = {
+        id: $('movieID').val()
+    }
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMovie)
+    }
+    fetch(url,options)
+        .then(res => {
+            console.log("Movie has been deleted!")
+        })
+}
