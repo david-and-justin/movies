@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Movies</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 </head>
 <body>
 <form id="movie-form">
@@ -12,7 +13,15 @@
     <input id="director" name="director" type="text"><br/>
     <label for="rating">Rating:</label>
     <input id="rating" name="rating" type="text"><br/>
+    <label for="year">Year:</label>
+    <input id="year" name="year" type="text"><br/>
+    <label for="genre">Genre:</label>
+    <input id="genre" name="genre" type="text"><br/>
     <button id="add-btn" type="button">Add</button>
+    <button id="search-btn" type="button">Search by ID</button>
+    <button id="edit-btn" type="button">Submit Changes</button>
+    <button id="remove-btn" type="button">Remove</button>
+
 </form>
 <script src="movies-js.js"></script>
 <script src="jquery.js"></script>
@@ -21,6 +30,16 @@
         event.preventDefault();
         addMovie();
     })
+
+    $('#search-btn').click(function (event){
+        event.preventDefault();
+        let movieID = prompt("Enter a movie ID:");
+        fetchOneMovie(parseInt(movieID)).then({
+
+        });
+    })
+
+
 </script>
 </body>
 </html>

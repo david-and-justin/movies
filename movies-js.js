@@ -14,20 +14,20 @@ function fetchAllMovies() {
 
 
 // GET ONE MOVIE
-function fetchOneMovies(specID) {
-    fetch(url)
+function fetchOneMovie(movieID) {
+    return fetch(url)
         .then(res => res.json())
         .then(movies => {
             for (let movie of movies) {
-                if (movie.id === specID) {
-                    console.log(movie);
+                if (movie.id === movieID) {
+                    return movie;
                 }
             }
         })
         .catch(err => console.log(err));
 }
 
-// fetchOneMovies(8);
+fetchOneMovie(2).then(movieInfo => console.log(movieInfo));
 
 //ADD A NEW MOVIE
 function addMovie() {
@@ -51,4 +51,4 @@ function addMovie() {
         })
 }
 
-fetchAllMovies();
+// Delete a Movie
