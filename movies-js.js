@@ -40,7 +40,7 @@ function fetchAllMovies() {
                                     <!-- Product actions-->
                                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                         <div class="text-center"><a data-id="${movieID}"
-                                                                    class="btn btn-outline-dark mt-auto edit-button"
+                                                                    class="edit-button btn btn-outline-dark mt-auto"
                                                                     data-bs-toggle="modal" data-bs-target="#editModal"
                                                                     href="#">Edit</a></div>
                                     </div>
