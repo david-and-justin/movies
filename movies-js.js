@@ -18,7 +18,7 @@ function fetchAllMovies() {
                     let rating = movie.rating;
                     let year = movie.year;
                     let genre = movie.genre;
-                    let movieCard =
+                    let movieCardTop =
                         //language=HTML
 
                         `
@@ -30,28 +30,55 @@ function fetchAllMovies() {
                                     <div class="card-body p-4">
                                         <div class="text-center">
                                             <!-- Product name-->
-                                            <h5 class="fw-bolder">${movieTitle}</h5>
-                                            <p><b>Director: </b>${director}</p>
-                                            <p><b>Rating: </b>${rating}</p>
-                                            <p><b>Year: </b>${year}</p>
-                                            <p><b>Genre: </b>${genre}</p>
-                                        </div>
-                                    </div>
-                                    <!-- Product actions-->
-                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                        <div class="text-center"><a data-id="${movieID}"
-                                                                    class="edit-button btn btn-outline-dark mt-auto"
-                                                                    data-bs-toggle="modal" data-bs-target="#editModal"
-                                                                    href="#">Edit</a></div>
-                                    </div>
-                                </div>
-                            </div>`;
+                                            <h5 class="fw-bolder">${movieTitle}</h5>`;
 
-                    $("#card-area").append(movieCard);
+
+                    // <p><b>Director: </b>${director}</p>
+                    // <p><b>Rating: </b>${rating}</p>
+                    // <p><b>Year: </b>${year}</p>
+                    // <p><b>Genre: </b>${genre}</p>
+
+                    let movieCardBottom =
+                        //language=HTML
+                        `
+                </div>
+                </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a data-id="${movieID}"
+                                                    class="edit-button btn btn-outline-dark mt-auto"
+                                                    data-bs-toggle="modal" data-bs-target="#editModal"
+                                                    href="#">Edit</a></div>
+                    </div>
+                </div>
+                </div>
+                    `;
+
+                    $("#card-area").append(movieCardTop + createCard(director, rating, year, genre) + movieCardBottom);
                 }
 
             }))
         .catch(err => console.log(err));
+}
+
+
+// CREATE MOVIE CARD
+
+function createCard(director, rating, year, genre) {
+    let cardGuts = "";
+    if (director !== "" && director !== undefined) {
+        cardGuts += `<p><b>Director: </b>${director}</p>`;
+    }
+    if (director !== "" && director !== undefined) {
+        cardGuts += `<p><b>Rating: </b>${rating}</p>`;
+    }
+    if (director !== "" && director !== undefined) {
+        cardGuts += `<p><b>Year: </b>${year}</p>`;
+    }
+    if (director !== "" && director !== undefined) {
+        cardGuts += `<p><b>Genre: </b>${genre}</p>`;
+    }
+    return cardGuts;
 }
 
 
