@@ -100,7 +100,7 @@ $('#add-btn').click(function (event) {
     addMovie(parseInt($(this).attr('data-id')));
 });
 
-$('#clear-btn').click(function (event) {
+$('.clear-btn').click(function (event) {
     event.preventDefault();
     clearFields();
 });
