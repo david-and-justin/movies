@@ -5,6 +5,7 @@ const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
 
 //GET ALL MOVIES
 function fetchAllMovies() {
+    $('.btn').attr('disabled', 'disabled');
     return fetch(url)
         .then(res => res.json()
             .then(data => {
@@ -53,7 +54,7 @@ function fetchAllMovies() {
                     console.log(movieCardBottom);
                     $("#card-area").append(movieCardTop + movieCardMiddle + createCard(director, rating, year, genre) + movieCardBottom);
                 }
-
+                $('.btn').removeAttr('disabled');
             }))
         .catch(err => console.log(err));
 }
@@ -118,6 +119,7 @@ function fetchOneMovie(movieID) {
 
 
 $(document).on('click', '.edit-button', function () {
+    $(this).attr('disabled', 'disabled');
     $('#change-btn').attr('data-id', $(this).attr('data-id'));
     fetchOneMovie(parseInt($(this).attr('data-id')))
         .then(movie => {
@@ -128,21 +130,29 @@ $(document).on('click', '.edit-button', function () {
             $('#edit-year').val(movie.year);
             $('#edit-genre').val(movie.genre);
         })
+        .then(() => {
+            $('#edit-title').focus();
+            $(this).removeAttr('disabled');
+        })
 });
 
 
 $('#change-btn').click(function (event) {
+    $('.btn').attr('disabled', 'disabled');
     event.preventDefault();
+    $(this).attr('disabled', 'disabled');
     editMovie(parseInt($(this).attr('data-id')));
 });
 
 $('#delete-btn').click(function (event) {
+    $('.btn').attr('disabled', 'disabled');
     event.preventDefault();
     let thisMovieID = parseInt($('#edit-ID').val());
     deleteMovie(thisMovieID);
 });
 
 $('#add-btn').click(function (event) {
+    $('.btn').attr('disabled', 'disabled');
     event.preventDefault();
     addMovie(parseInt($(this).attr('data-id')));
 });
@@ -221,5 +231,5 @@ function deleteMovie(movieID) {
 
 function clearFields() {
     $('.movie-data-entry').children().val("");
-
+    $('#edit-title, #add-title').focus();
 }
