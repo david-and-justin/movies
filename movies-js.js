@@ -74,12 +74,12 @@ $(document).on('click', '.edit-button', function () {
     $('#change-btn').attr('data-id', $(this).attr('data-id'));
     fetchOneMovie(parseInt($(this).attr('data-id')))
         .then(movie => {
-            $('#ID').val(movie.id);
-            $('#title').val(movie.title);
-            $('#director').val(movie.director);
-            $('#rating').val(movie.rating);
-            $('#year').val(movie.year);
-            $('#genre').val(movie.genre);
+            $('#edit-ID').val(movie.id);
+            $('#edit-title').val(movie.title);
+            $('#edit-director').val(movie.director);
+            $('#edit-rating').val(movie.rating);
+            $('#edit-year').val(movie.year);
+            $('#edit-genre').val(movie.genre);
         })
 });
 
@@ -91,7 +91,7 @@ $('#change-btn').click(function (event) {
 
 $('#delete-btn').click(function (event) {
     event.preventDefault();
-    let thisMovieID = parseInt($('#ID').val());
+    let thisMovieID = parseInt($('#edit-ID').val());
     deleteMovie(thisMovieID);
 });
 
@@ -109,11 +109,11 @@ $('.clear-btn').click(function (event) {
 function editMovie(movieID) {
     let updateMovie = {
         id: movieID,
-        title: $('#title').val(),
-        director: $('#director').val(),
-        rating: $('#rating').val(),
-        year: $('#year').val(),
-        genre: $('#genre').val()
+        title: $('#edit-title').val(),
+        director: $('#edit-director').val(),
+        rating: $('#edit-rating').val(),
+        year: $('#edit-year').val(),
+        genre: $('#edit-genre').val()
     }
     const options = {
         method: "PATCH",
@@ -133,12 +133,12 @@ function editMovie(movieID) {
 //ADD A NEW MOVIE
 function addMovie() {
     let newMovie = {
-        title: $('#title').val(),
-        director: $('#director').val(),
-        rating: $('#rating').val(),
-        year: $('#year').val(),
-        genre: $('#genre').val(),
-        poster: $('#img-url').val()
+        title: $('#add-title').val(),
+        director: $('#add-director').val(),
+        rating: $('#add-rating').val(),
+        year: $('#add-year').val(),
+        genre: $('#add-genre').val(),
+        poster: $('#add-img-url').val()
     }
     const options = {
         method: "POST",
@@ -173,6 +173,6 @@ function deleteMovie(movieID) {
 
 
 function clearFields() {
-        $('#movie-form').children().val("");
+        $('.movie-data-entry').children().val("");
 
 }
