@@ -14,47 +14,44 @@ function fetchAllMovies() {
                     let movieTitle = movie.title;
                     let movieID = movie.id;
                     let director = movie.director;
-                    let poster = movie.poster;
+                    //let poster = movie.poster;
                     let rating = movie.rating;
                     let year = movie.year;
                     let genre = movie.genre;
-                    let movieCardTop =
+                    let movieCardTop = populatePoster(movie.poster);
                         //language=HTML
 
-                        `
-                            <div class="col mb-5">
-                                <div class="card h-100">
-                                    <!-- Movie image-->
-                                    <img class="card-img-top" src=${poster} alt="..."/>
+                        // `
+                        //     <div class="col mb-5">
+                        //         <div class="card h-100">
+                        //             <!-- Movie image-->
+                        //             <img class="card-img-top" src=${poster} alt="..."/>
                                     <!-- Movie details-->
-                                    <div class="card-body p-4">
+
+                    let movieCardMiddle = `<div class="card-body p-4">
                                         <div class="text-center">
                                             <!-- Product name-->
-                                            <h5 class="fw-bolder">${movieTitle}</h5>`;
-
-
-                    // <p><b>Director: </b>${director}</p>
-                    // <p><b>Rating: </b>${rating}</p>
-                    // <p><b>Year: </b>${year}</p>
-                    // <p><b>Genre: </b>${genre}</p>
+                                            <h5 class="fw-bolder">${movieTitle}</h5>
+                                        `;
 
                     let movieCardBottom =
                         //language=HTML
-                        `
-                </div>
-                </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a data-id="${movieID}"
-                                                    class="edit-button btn btn-outline-dark mt-auto"
-                                                    data-bs-toggle="modal" data-bs-target="#editModal"
-                                                    href="#">Edit</a></div>
-                    </div>
-                </div>
-                </div>
-                    `;
-
-                    $("#card-area").append(movieCardTop + createCard(director, rating, year, genre) + movieCardBottom);
+                        `</div>
+                        </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a data-id="${movieID}"
+                                                            class="edit-button btn btn-outline-dark mt-auto"
+                                                            data-bs-toggle="modal" data-bs-target="#editModal"
+                                                            href="#">Edit</a></div>
+                            </div>
+                            </div>
+                            </div>
+                        `;
+                    console.log(movieCardTop);
+                    console.log(movieCardMiddle);
+                    console.log(createCard(director,rating,year,genre));
+                    console.log(movieCardBottom);
+                    $("#card-area").append(movieCardTop + movieCardMiddle + createCard(director, rating, year, genre) + movieCardBottom);
                 }
 
             }))
@@ -69,18 +66,41 @@ function createCard(director, rating, year, genre) {
     if (director !== "" && director !== undefined) {
         cardGuts += `<p><b>Director: </b>${director}</p>`;
     }
-    if (director !== "" && director !== undefined) {
+    if (rating !== "" && rating !== undefined) {
         cardGuts += `<p><b>Rating: </b>${rating}</p>`;
     }
-    if (director !== "" && director !== undefined) {
+    if (year !== "" && year !== undefined) {
         cardGuts += `<p><b>Year: </b>${year}</p>`;
     }
-    if (director !== "" && director !== undefined) {
+    if (genre !== "" && genre !== undefined) {
         cardGuts += `<p><b>Genre: </b>${genre}</p>`;
     }
     return cardGuts;
 }
 
+function populatePoster(image) {
+    let posterURL = "";
+    if (image !== undefined && image !== "") {
+        posterURL +=
+            //language=HTML
+            `
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Movie image-->
+                        <img class="card-img-top" src=${image} alt="..."/>
+            `;
+    } else {
+        posterURL +=
+            //language=HTML
+            `
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Movie image-->
+                        <img class="card-img-top" src="img/blank_movie.jpg" alt="..."/>
+            `;
+    }
+    return posterURL;
+}
 
 // GET ONE MOVIE
 function fetchOneMovie(movieID) {
@@ -200,6 +220,6 @@ function deleteMovie(movieID) {
 
 
 function clearFields() {
-        $('.movie-data-entry').children().val("");
+    $('.movie-data-entry').children().val("");
 
 }
