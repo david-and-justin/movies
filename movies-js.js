@@ -41,6 +41,7 @@ function fetchAllMovies() {
                                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                         <div class="text-center"><a data-id="${movieID}"
                                                                     class="btn btn-outline-dark mt-auto edit-button"
+                                                                    data-bs-toggle="modal" data-bs-target="#editModal"
                                                                     href="#">Edit</a></div>
                                     </div>
                                 </div>
@@ -68,7 +69,6 @@ function fetchOneMovie(movieID) {
         .catch(err => console.log(err));
 }
 
-// fetchOneMovie(5).then(movieInfo => console.log(movieInfo));
 
 $(document).on('click', '.edit-button', function () {
     $('#change-btn').attr('data-id', $(this).attr('data-id'));
@@ -82,6 +82,7 @@ $(document).on('click', '.edit-button', function () {
             $('#genre').val(movie.genre);
         })
 });
+
 
 $('#change-btn').click(function (event) {
     event.preventDefault();
@@ -101,8 +102,9 @@ $('#add-btn').click(function (event) {
 
 $('#clear-btn').click(function (event) {
     event.preventDefault();
-    $('#movie-form').children().val("");
+    clearFields();
 });
+
 
 function editMovie(movieID) {
     let updateMovie = {
@@ -127,10 +129,9 @@ function editMovie(movieID) {
         })
 }
 
+
 //ADD A NEW MOVIE
 function addMovie() {
-    //This is producing an error:
-    //"Private field '#title' must be declared in an enclosing class"
     let newMovie = {
         title: $('#title').val(),
         director: $('#director').val(),
@@ -154,6 +155,7 @@ function addMovie() {
         .then(clearFields);
 }
 
+
 // Delete a Movie
 function deleteMovie(movieID) {
     let areYouSure = confirm("Are you sure you want to delete this movie?");
@@ -168,27 +170,9 @@ function deleteMovie(movieID) {
             .then(clearFields);
     }
 }
+
+
 function clearFields() {
         $('#movie-form').children().val("");
 
-    // function buildCard() {
-    //     let movieTitle = d
-    //     let movieCard = `<div class="col mb-5">
-    //             <div class="card h-100">
-    //                 <!-- Movie details-->
-    //                 <div class="card-body p-4">
-    //                     <div class="text-center">
-    //                         <!-- Product name-->
-    //                         <h5 class="fw-bolder"></h5>
-    //                     </div>
-    //                 </div>
-    //                 <!-- Product actions-->
-    //                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-    //                     <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View
-    //                         options</a></div>
-    //                 </div>
-    //             </div>
-    //         </div>`;
-    //
-    //     $('#card-area').append(movieCard);
 }
