@@ -60,12 +60,27 @@
 <!-- Section-->
 
 <!-- Buttons to trigger add-movie modal and sort movies on the page -->
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
-    Add Movie
-</button>
-<button type="button" class="btn btn-primary" id="sort-btn">
-    Sort by Title
-</button>
+<div class="container" id="btn-div">
+
+    <button type="button" class="btn btn-outline-dark mt-auto" id="sort-title-btn">
+        Sort by Title
+    </button>
+    <button type="button" class="btn btn-primary" id="sort-btn">
+        Sort by Title
+    </button>
+    <button type="button" class="btn btn-primary" id="sort-btn">
+        Sort by Title
+    </button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+        Add Movie
+    </button>
+</div>
+<!--Search box-->
+<h3 id="search-heading">Search movies by title, ratings, or genre.</h3>
+<div class="input-group">
+    <input type="search" class="form rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+    <button type="button" class="btn btn-primary">search</button>
+</div>
 
 <!--Add Modal-->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -129,22 +144,21 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button id="delete-btn" class="btn btn-danger" type="button" data-bs-dismiss="modal">Delete movie</button>
-                <button id="change-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                <button id="delete-btn" class="btn btn-danger" type="button" data-bs-dismiss="modal">Delete movie
+                </button>
+                <button id="change-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes
+                </button>
             </div>
         </div>
     </div>
 </div>
 
 
-
-
-
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div id="card-area" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             <div id="loader-div">
-            <div class="loader"></div>
+                <div class="loader"></div>
             </div>
         </div>
     </div>

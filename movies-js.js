@@ -217,7 +217,7 @@ $('.clear-btn').click(function (event) {
     clearFields();
 });
 
-$('#sort-btn').click(function (event) {
+$('#sort-title-btn').click(function (event) {
     event.preventDefault();
     sortMovies();
 });
