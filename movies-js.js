@@ -308,6 +308,7 @@ function createMovies(searchTxt) {
             let moviesArray = []
             if (searchTxt === "") {
                 fetchAllMovies();
+                return;
             }
             if (isNaN(parseInt(searchTxt))) {
                 for (const movie of movies) {
