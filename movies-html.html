@@ -60,26 +60,28 @@
 <!-- Section-->
 
 <!-- Buttons to trigger add-movie modal and sort movies on the page -->
+<br>
 <div class="container" id="btn-div">
 
-    <button type="button" class="btn btn-outline-dark mt-auto" id="sort-title-btn">
-        Sort by Title
+    <button type="button" class="btn btn-secondary mt-auto" id="sort-title-btn">
+        Sort by title
     </button>
-    <button type="button" class="btn btn-primary" id="sort-btn">
-        Sort by Title
+    <button type="button" class="btn btn-secondary mt-auto" id="sort-rating-btn">
+        Sort by rating
     </button>
-    <button type="button" class="btn btn-primary" id="sort-btn">
-        Sort by Title
+    <button type="button" class="btn btn-secondary mt-auto" id="sort-genre-btn">
+        Sort by genre
     </button>
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
-        Add Movie
+        Add movie
     </button>
 </div>
+<br>
 <!--Search box-->
 <h3 id="search-heading">Search movies by title, ratings, or genre.</h3>
 <div class="input-group">
-    <input type="search" class="form rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
-    <button type="button" class="btn btn-primary">search</button>
+    <input id="search-field" type="search" class="form rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+    <button id="search-btn" type="button" class="btn btn-primary">search</button>
 </div>
 
 <!--Add Modal-->
