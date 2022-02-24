@@ -7,7 +7,16 @@ function fetchAllMovies() {
     return fetch(url)
         .then(res => res.json()
             .then(data => {
-                console.log(data);
+                displayMovies(data);
+            }))
+        .catch(err => console.log(err))
+}
+
+const fetchAllMoviesSorted = (function (){
+    return fetch(url)
+        .then(res => res.json()
+            .then(data => {
+                //console.log(data);
                 $("#card-area").html("");
                 //Loop through all movies in the database, getting ID, title, director, & other properties
                 for (const movie of data) {
@@ -48,8 +57,7 @@ function fetchAllMovies() {
                 }
             }))
         .catch(err => console.log(err));
-}
-
+});
 
 // CREATE MOVIE CARD
 function createCard(director, rating, year, genre) {
@@ -108,6 +116,70 @@ function fetchOneMovie(movieID) {
         .catch(err => console.log(err));
 }
 
+function sortMovies(){
+    return fetch(url)
+        .then(res => res.json()
+            .then(data => {
+                data.sort(function(a, b) {
+                    if (a.title === undefined || a.title === null) {
+                        return 1
+                    }
+                    if (b.title === undefined || b.title === null) {
+                        return -1
+                    }
+                    if(a.title.toLowerCase() < b.title.toLowerCase()) {
+                        return -1;
+                    } else if(b.title.toLowerCase() < a.title.toLowerCase()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
+                displayMovies(data);
+
+            }));
+}
+function displayMovies(data) {
+    $("#card-area").html("");
+    //Loop through all movies in the database, getting ID, title, director, & other properties
+    for (const movie of data) {
+        let movieTitle = movie.title;
+        let movieID = movie.id;
+        let director = movie.director;
+        let rating = movie.rating;
+        let year = movie.year;
+        let genre = movie.genre;
+
+        //Call a function to hotlink a poster image in the top portion of each movie card
+        let movieCardTop = populatePoster(movie.poster);
+
+        //Add a div to contain the title of each movie as a heading
+        let movieCardMiddle = `<div class="card-body p-4">
+                                        <div class="text-center">
+                                            <!-- Product name-->
+                                            <h5 class="fw-bolder">${movieTitle}</h5>
+                                        `;
+        //The other properties of each movie will display between the middle & the bottom
+        //Add an Edit button at the bottom of the card
+        let movieCardBottom =
+            //language=HTML
+            `</div>
+                        </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a data-id="${movieID}"
+                                                            class="edit-button btn btn-outline-dark mt-auto"
+                                                            data-bs-toggle="modal" data-bs-target="#editModal"
+                                                            href="#">Edit</a></div>
+                            </div>
+                            </div>
+                            </div>
+                        `;
+        //Concatenate the whole mess of HTML, calling a function to get field data,
+        //and append it to the card-area div
+        $("#card-area").append(movieCardTop + movieCardMiddle + createCard(director, rating, year, genre) + movieCardBottom);
+    }
+}
+
 //This is below the fetchAllMovies & fetchOneMovie functions because js is read from top to bottom
 $(document).on('click', '.edit-button', function () {
     $('#change-btn').attr('data-id', $(this).attr('data-id'));
@@ -143,6 +215,11 @@ $('#add-btn').click(function (event) {
 $('.clear-btn').click(function (event) {
     event.preventDefault();
     clearFields();
+});
+
+$('#sort-btn').click(function (event) {
+    event.preventDefault();
+    sortMovies();
 });
 
 
