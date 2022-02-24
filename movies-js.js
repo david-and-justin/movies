@@ -2,7 +2,6 @@
 
 const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
 
-
 //GET ALL MOVIES
 function fetchAllMovies() {
     return fetch(url)
@@ -10,30 +9,26 @@ function fetchAllMovies() {
             .then(data => {
                 console.log(data);
                 $("#card-area").html("");
+                //Loop through all movies in the database, getting ID, title, director, & other properties
                 for (const movie of data) {
                     let movieTitle = movie.title;
                     let movieID = movie.id;
                     let director = movie.director;
-                    //let poster = movie.poster;
                     let rating = movie.rating;
                     let year = movie.year;
                     let genre = movie.genre;
+
+                    //Call a function to hotlink a poster image in the top portion of each movie card
                     let movieCardTop = populatePoster(movie.poster);
-                        //language=HTML
 
-                        // `
-                        //     <div class="col mb-5">
-                        //         <div class="card h-100">
-                        //             <!-- Movie image-->
-                        //             <img class="card-img-top" src=${poster} alt="..."/>
-                                    <!-- Movie details-->
-
+                    //Add a div to contain the title of each movie as a heading
                     let movieCardMiddle = `<div class="card-body p-4">
                                         <div class="text-center">
                                             <!-- Product name-->
                                             <h5 class="fw-bolder">${movieTitle}</h5>
                                         `;
-
+                    //The other properties of each movie will display between the middle & the bottom
+                    //Add an Edit button at the bottom of the card
                     let movieCardBottom =
                         //language=HTML
                         `</div>
@@ -47,20 +42,16 @@ function fetchAllMovies() {
                             </div>
                             </div>
                         `;
-                    console.log(movieCardTop);
-                    console.log(movieCardMiddle);
-                    console.log(createCard(director,rating,year,genre));
-                    console.log(movieCardBottom);
+                    //Concatenate the whole mess of HTML, calling a function to get field data,
+                    //and append it to the card-area div
                     $("#card-area").append(movieCardTop + movieCardMiddle + createCard(director, rating, year, genre) + movieCardBottom);
                 }
-
             }))
         .catch(err => console.log(err));
 }
 
 
 // CREATE MOVIE CARD
-
 function createCard(director, rating, year, genre) {
     let cardGuts = "";
     if (director !== "" && director !== undefined) {
@@ -78,6 +69,7 @@ function createCard(director, rating, year, genre) {
     return cardGuts;
 }
 
+//Display a poster in each movie card if a URL is specified; otherwise display a placeholder image
 function populatePoster(image) {
     let posterURL = "";
     if (image !== undefined && image !== "") {
@@ -102,7 +94,7 @@ function populatePoster(image) {
     return posterURL;
 }
 
-// GET ONE MOVIE
+// GET ONE MOVIE (specified by ID)
 function fetchOneMovie(movieID) {
     return fetch(url)
         .then(res => res.json())
@@ -116,7 +108,7 @@ function fetchOneMovie(movieID) {
         .catch(err => console.log(err));
 }
 
-
+//This is below the fetchAllMovies & fetchOneMovie functions because js is read from top to bottom
 $(document).on('click', '.edit-button', function () {
     $('#change-btn').attr('data-id', $(this).attr('data-id'));
     fetchOneMovie(parseInt($(this).attr('data-id')))
@@ -127,10 +119,11 @@ $(document).on('click', '.edit-button', function () {
             $('#edit-rating').val(movie.rating);
             $('#edit-year').val(movie.year);
             $('#edit-genre').val(movie.genre);
-        })
+        }).then($('#edit-title').focus());
 });
 
-
+//A series of event listeners for buttons to add, delete, edit/update movies
+//and to clear the form fields in order to start over
 $('#change-btn').click(function (event) {
     event.preventDefault();
     editMovie(parseInt($(this).attr('data-id')));
@@ -218,8 +211,7 @@ function deleteMovie(movieID) {
     }
 }
 
-
 function clearFields() {
     $('.movie-data-entry').children().val("");
-
+    $('#edit-title').focus();
 }
