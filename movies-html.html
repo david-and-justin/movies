@@ -60,12 +60,23 @@
 <!-- Section-->
 
 <!-- Buttons to trigger add-movie modal and sort movies on the page -->
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+<div id="button-div">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
     Add Movie
 </button>
-<button type="button" class="btn btn-primary" id="sort-btn">
+<button type="button" class="btn btn-primary" id="sort-title-btn">
     Sort by Title
 </button>
+<button type="button" class="btn btn-primary" id="sort-year-btn">
+    Sort by Year
+</button>
+</div>
+
+<div id="search-div" class="container">
+    <div id="search-row" class="row d-flex justify-content-center">
+        <input id="search-box" type="text" class="col-4" placeholder="Search by title, rating, or genre">
+    </div>
+</div>
 
 <!--Add Modal-->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">

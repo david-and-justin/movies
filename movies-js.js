@@ -1,6 +1,6 @@
 "use strict";
 
-const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
+const url = "http://localhost:8080/movies";
 
 //GET ALL MOVIES
 function fetchAllMovies() {
@@ -11,53 +11,6 @@ function fetchAllMovies() {
             }))
         .catch(err => console.log(err))
 }
-
-const fetchAllMoviesSorted = (function (){
-    return fetch(url)
-        .then(res => res.json()
-            .then(data => {
-                //console.log(data);
-                $("#card-area").html("");
-                //Loop through all movies in the database, getting ID, title, director, & other properties
-                for (const movie of data) {
-                    let movieTitle = movie.title;
-                    let movieID = movie.id;
-                    let director = movie.director;
-                    let rating = movie.rating;
-                    let year = movie.year;
-                    let genre = movie.genre;
-
-                    //Call a function to hotlink a poster image in the top portion of each movie card
-                    let movieCardTop = populatePoster(movie.poster);
-
-                    //Add a div to contain the title of each movie as a heading
-                    let movieCardMiddle = `<div class="card-body p-4">
-                                        <div class="text-center">
-                                            <!-- Product name-->
-                                            <h5 class="fw-bolder">${movieTitle}</h5>
-                                        `;
-                    //The other properties of each movie will display between the middle & the bottom
-                    //Add an Edit button at the bottom of the card
-                    let movieCardBottom =
-                        //language=HTML
-                        `</div>
-                        </div>
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a data-id="${movieID}"
-                                                            class="edit-button btn btn-outline-dark mt-auto"
-                                                            data-bs-toggle="modal" data-bs-target="#editModal"
-                                                            href="#">Edit</a></div>
-                            </div>
-                            </div>
-                            </div>
-                        `;
-                    //Concatenate the whole mess of HTML, calling a function to get field data,
-                    //and append it to the card-area div
-                    $("#card-area").append(movieCardTop + movieCardMiddle + createCard(director, rating, year, genre) + movieCardBottom);
-                }
-            }))
-        .catch(err => console.log(err));
-});
 
 // CREATE MOVIE CARD
 function createCard(director, rating, year, genre) {
@@ -116,7 +69,7 @@ function fetchOneMovie(movieID) {
         .catch(err => console.log(err));
 }
 
-function sortMovies(){
+function sortMoviesByTitle(){
     return fetch(url)
         .then(res => res.json()
             .then(data => {
@@ -139,6 +92,31 @@ function sortMovies(){
 
             }));
 }
+
+function sortMoviesByYear(){
+    return fetch(url)
+        .then(res => res.json()
+            .then(data => {
+                data.sort(function(a, b) {
+                    if (a.year === undefined || a.year === null) {
+                        return 1
+                    }
+                    if (b.year === undefined || b.year === null) {
+                        return -1
+                    }
+                    if(a.year < b.year) {
+                        return -1;
+                    } else if(b.year < a.year) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
+                displayMovies(data);
+
+            }));
+}
+
 function displayMovies(data) {
     $("#card-area").html("");
     //Loop through all movies in the database, getting ID, title, director, & other properties
@@ -217,11 +195,34 @@ $('.clear-btn').click(function (event) {
     clearFields();
 });
 
-$('#sort-btn').click(function (event) {
+$('#sort-title-btn').click(function (event) {
     event.preventDefault();
-    sortMovies();
+    sortMoviesByTitle();
 });
 
+$('#sort-year-btn').click(function (event) {
+    event.preventDefault();
+    sortMoviesByYear();
+});
+
+$('#search-box').keydown(function (event) {
+    let titles = $(this).val();
+    let ratings = $(this).val();
+    let genres = $(this).val();
+
+    let movieData = fetchAllMovies();
+    let titleArray = buildTitleArray(titles);
+    let ratingArray = buildRatingArray(ratings);
+    let genreArray = buildGenreArray(genres);
+
+    for (movie of movieData) {
+        if (movie.includes(titles) || movie.includes(ratings) || movie.includes(genres)) {
+            if ($('.mb-5').children($('.card')).includes($(this).val)) {
+
+            }
+        }
+    }
+})
 
 function editMovie(movieID) {
     let updateMovie = {
@@ -249,14 +250,14 @@ function editMovie(movieID) {
 
 //ADD A NEW MOVIE
 function addMovie() {
-    let newMovie = {
+    let newMovie = [{
         title: $('#add-title').val(),
         director: $('#add-director').val(),
         rating: $('#add-rating').val(),
         year: $('#add-year').val(),
         genre: $('#add-genre').val(),
         poster: $('#add-img-url').val()
-    }
+    }]
     const options = {
         method: "POST",
         headers: {
@@ -291,4 +292,31 @@ function deleteMovie(movieID) {
 function clearFields() {
     $('.movie-data-entry').children().val("");
     $('#edit-title').focus();
+}
+
+function buildTitleArray(searchText) {
+    let movieTitleArray = [];
+    fetchAllMovies();
+    for (movie of movies) {
+        movieTitleArray.push(movie.title);
+    }
+    return movieTitleArray;
+}
+
+function buildRatingArray(searchText) {
+    let movieRatingArray = [];
+    fetchAllMovies();
+    for (movie of movies) {
+        movieTitleArray.push(movie.rating);
+    }
+    return movieRatingArray;
+}
+
+function buildGenreArray(searchText) {
+    let movieGenreArray = [];
+    fetchAllMovies();
+    for (movie of movies) {
+        movieTitleArray.push(movie.genre);
+    }
+    return movieGenreArray;
 }
