@@ -147,15 +147,15 @@ function sortMoviesByRating(){
         .then(res => res.json()
             .then(data => {
                 data.sort(function(a, b) {
-                    if (a.rating === undefined || a.rating === null) {
+                    if (a.rating == undefined || a.rating == null) {
                         return -1
                     }
-                    if (b.rating === undefined || b.rating === null) {
+                    if (b.rating == undefined || b.rating == null) {
                         return 1
                     }
-                    if(a.rating.toLowerCase() < b.rating.toLowerCase()) {
+                    if(a.rating < b.rating) {
                         return 1;
-                    } else if(b.rating.toLowerCase() < a.rating.toLowerCase()) {
+                    } else if(b.rating < a.rating) {
                         return -1;
                     } else {
                         return 0;
@@ -366,14 +366,17 @@ function editMovie(movieID) {
 
 //ADD A NEW MOVIE
 function addMovie() {
-    let newMovie = {
+    let newMovie = [{
         title: $('#add-title').val(),
         director: $('#add-director').val(),
         rating: $('#add-rating').val(),
         year: $('#add-year').val(),
         genre: $('#add-genre').val(),
-        poster: $('#add-img-url').val()
-    }
+        poster: $('#add-img-url').val(),
+        plot: "",
+        actors: ""
+    }]
+    console.log(JSON.stringify(newMovie));
     const options = {
         method: "POST",
         headers: {
