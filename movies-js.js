@@ -1,5 +1,9 @@
 "use strict";
 
+<<<<<<< HEAD
+=======
+// const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
+>>>>>>> bfbea040aabf36d325bfd7e15932dd53d994a1f5
 const url = "http://localhost:8080/movies";
 
 //GET ALL MOVIES
@@ -93,11 +97,42 @@ function sortMoviesByTitle(){
             }));
 }
 
+<<<<<<< HEAD
 function sortMoviesByYear(){
+=======
+
+function sortMoviesByRating(){
     return fetch(url)
         .then(res => res.json()
             .then(data => {
                 data.sort(function(a, b) {
+                    if (a.rating === undefined || a.rating === null) {
+                        return -1
+                    }
+                    if (b.rating === undefined || b.rating === null) {
+                        return 1
+                    }
+                    if(a.rating.toLowerCase() < b.rating.toLowerCase()) {
+                        return 1;
+                    } else if(b.rating.toLowerCase() < a.rating.toLowerCase()) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                });
+                displayMovies(data);
+
+            }));
+}
+
+
+function sortMoviesByGere(){
+>>>>>>> bfbea040aabf36d325bfd7e15932dd53d994a1f5
+    return fetch(url)
+        .then(res => res.json()
+            .then(data => {
+                data.sort(function(a, b) {
+<<<<<<< HEAD
                     if (a.year === undefined || a.year === null) {
                         return 1
                     }
@@ -107,6 +142,17 @@ function sortMoviesByYear(){
                     if(a.year < b.year) {
                         return -1;
                     } else if(b.year < a.year) {
+=======
+                    if (a.genre === undefined || a.genre === null) {
+                        return 1
+                    }
+                    if (b.genre === undefined || b.genre === null) {
+                        return -1
+                    }
+                    if(a.genre.toLowerCase() < b.genre.toLowerCase()) {
+                        return -1;
+                    } else if(b.genre.toLowerCase() < a.genre.toLowerCase()) {
+>>>>>>> bfbea040aabf36d325bfd7e15932dd53d994a1f5
                         return 1;
                     } else {
                         return 0;
@@ -117,6 +163,10 @@ function sortMoviesByYear(){
             }));
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> bfbea040aabf36d325bfd7e15932dd53d994a1f5
 function displayMovies(data) {
     $("#card-area").html("");
     //Loop through all movies in the database, getting ID, title, director, & other properties
@@ -196,6 +246,7 @@ $('.clear-btn').click(function (event) {
 });
 
 $('#sort-title-btn').click(function (event) {
+<<<<<<< HEAD
     event.preventDefault();
     sortMoviesByTitle();
 });
@@ -223,6 +274,76 @@ $('#search-box').keydown(function (event) {
         }
     }
 })
+=======
+    event.preventDefault();
+    sortMoviesByTitle();
+});
+
+$('#sort-rating-btn').click(function (event) {
+    event.preventDefault();
+    sortMoviesByRating();
+});
+
+$('#sort-genre-btn').click(function (event) {
+    event.preventDefault();
+    sortMoviesByGere();
+});
+
+
+$('#search-field').keyup(function (event) {
+    let key = event.keyCode;
+    let searchText = $('#search-field').val();
+    if (key === 13) {
+        createMovies(searchText);
+    }
+});
+
+//GRAB INFO FROM SEARCH FORM
+$('#search-btn').click(function() {
+    let searchText = $('#search-field').val();
+    createMovies(searchText);
+});
+
+
+// CREATE AN ARRAY OF MOVIES FROM THE SEARCH
+function createMovies(searchTxt) {
+    return fetch(url)
+        .then(res => res.json())
+        .then(movies => {
+            let moviesArray = []
+            if (searchTxt === "") {
+                fetchAllMovies();
+                return;
+            }
+            if (isNaN(parseInt(searchTxt))) {
+                for (const movie of movies) {
+                    // let splitGenre = movie.genre;
+                    if (movie.title.toLowerCase().includes(searchTxt.toLowerCase())) {
+                        moviesArray.push(movie);
+                    }
+                    if (movie.genre.toLowerCase().includes(searchTxt.toLowerCase())) {
+                        moviesArray.push(movie);
+                    }
+                    // displayMovies(moviesArray);
+                }
+            } else {
+                // console.log("Number");
+                for (const movie of movies) {
+                    if (movie.rating.includes(parseInt(searchTxt))) {
+                        moviesArray.push(movie);
+                    }
+                }
+            }
+            displayMovies(moviesArray);
+        })
+        .catch(err => console.log(err));
+}
+
+
+
+
+
+>>>>>>> bfbea040aabf36d325bfd7e15932dd53d994a1f5
 
 function editMovie(movieID) {
     let updateMovie = {
@@ -234,7 +355,7 @@ function editMovie(movieID) {
         genre: $('#edit-genre').val()
     }
     const options = {
-        method: "PATCH",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
