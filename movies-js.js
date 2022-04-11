@@ -1,6 +1,7 @@
 "use strict";
 
-const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
+// const url = "https://celestial-dramatic-fuschia.glitch.me/movies";
+const url = "http://localhost:8080/movies";
 
 //GET ALL MOVIES
 function fetchAllMovies() {
@@ -349,7 +350,7 @@ function editMovie(movieID) {
         genre: $('#edit-genre').val()
     }
     const options = {
-        method: "PATCH",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
